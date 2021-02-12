@@ -88,6 +88,7 @@ class Monitor:
                     print("D <addr>: put data values into RAM starting at addr")
                     print("S <start> <end>: show memory from start to end")
                     print("X <addr>: execute program starting at addr")
+                    print("R <addr>: run programs with starting locations specified in an array starting at <addr>")
                     print(
                         "L <addr> <tapename>: load a program from tape to bytes starting at addr")
                     print(
@@ -120,6 +121,8 @@ class Monitor:
                     self._poke_ram(arg1)
                 elif instr.upper().startswith('X '):
                     self._run_program(arg1)
+                elif instr.upper().startswith('R '): # Homework 1: Add Batch Programming: Step 1
+                    self._run_batch(arg1)
                 elif instr.upper().startswith('L '):
                     try:
                         tapename = instr.split()[2]
@@ -185,6 +188,15 @@ class Monitor:
         self._cpu.start()		# call run()
         self._cpu.join()		# wait for it to end
 
+
+    # Homework 1: Add Batch Programming: Step 1
+    # _run_batch takes an argument addr and calls CPU to run an array of programs defined the values starting at addr
+    def _run_batch(self, addr):
+        self._cpu = CPU(self._ram, calos.CalOS(), addr, self._debug, True)
+        self._cpu.set_batch_start_addr(addr) # set the starting address
+        self._cpu.start()
+        self._cpu.join()
+        
     def _enter_program(self, starting_addr):
         # TODO: must make sure we enter program starting on even boundary.
         curr_addr = int(starting_addr)

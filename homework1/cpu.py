@@ -12,7 +12,8 @@ DELAY_BETWEEN_INSTRUCTIONS = 0.2
 
 
 class CPU(threading.Thread):
-    def __init__(self, ram, os, startAddr, debug, num=0):
+     # Homework 1: Add Batch Programming Step 2: Add batch_mode boolean parameter
+    def __init__(self, ram, os, startAddr, debug, batch_mode=False, num=0):
         threading.Thread.__init__(self)
 
         self._num = num   # unique ID of this cpu
@@ -23,6 +24,8 @@ class CPU(threading.Thread):
             'pc': startAddr
         }
 
+        self._batch_mode = batch_mode
+        
         self._ram = ram
         self._os = os
         self._debug = debug
@@ -39,6 +42,11 @@ class CPU(threading.Thread):
         # an interrupt occurs and the current state of the CPU needs to be
         # stored.
         self._backup_registers = {}
+
+    # Homework 1: Add Batch Programming Step 2
+    # setter for batch programming array starting address
+    def set_batch_start_addr(self, start_addr):
+        self._start_addr = start_addr
 
     def set_pc(self, pc):
         # TODO: check if value of pc is good?
@@ -73,7 +81,34 @@ class CPU(threading.Thread):
 
     def run(self):
         '''Overrides run() in thread.  Called by calling start().'''
-        self._run_program()
+        if self._batch_mode:
+
+            # program counter for remembering where we are in the batch array
+            current_program = 0 
+            
+            while True:
+                # get address of current program starting address
+                current_start_address = self._ram[self._start_addr + current_program]
+                
+                # if address is 0, we end batch
+                if current_start_address == 0:
+                    break
+
+                # set program counter to first instruction & reset registers
+                self._registers = {
+                    'reg0': 0,
+                    'reg1': 0,
+                    'reg2': 0,
+                    'pc': current_start_address
+                }
+
+                # run program
+                self._run_program()
+                
+                current_program += 1
+                
+        else:
+            self._run_program()
 
     def _run_program(self):
         while True:
