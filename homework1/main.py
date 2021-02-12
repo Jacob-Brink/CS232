@@ -3,6 +3,10 @@ alter RAM, start the CPU, etc.
 
 @author Victor Norman
 @date 12/26/17
+
+@student: Jacob Brink
+@date: 2/12/2021
+
 '''
 
 
@@ -70,7 +74,8 @@ class Monitor:
         self._cpu = None		# may have to become a list of cores
         self._debug = False
         self._ram = ram
-
+        
+    # Homework 1: Add Batch Programming Step 1: Added "R" option in the menu for batch programming
     def run(self):   # called from monitor._cpu.start()
         print("Monitor: enter ? to see options.")
         while True:

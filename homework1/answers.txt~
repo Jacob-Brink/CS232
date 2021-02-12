@@ -1,7 +1,5 @@
 How many bytes of RAM does the virtual machine have by default? ****
 
-The RAM isn't really bound by bytes, since it is a simple python array. It has 1024 words, which means that it can hold 1024 values, whether that be an instruction, any number, or a four character string.
-
 1024 words * 2 bytes / 1 word = 2048 bytes
 
 What are the registers that the virtual machine has?
@@ -22,7 +20,7 @@ S allows the user to specify a section of the memory they wish to display.
 
 What does the Monitor instruction ! do?
 
-The exclamation mark turns on debugging mode, which basically will output after every run instruction the values of the three registers and the program counter.
+The exclamation mark turns on debugging mode.
 
 Can assembly language files contain comments? How about blank lines?
 
@@ -34,4 +32,4 @@ mov function writes bytes to memory
 
 Do assembly language programs assume they are loaded into memory at certain locations?
 
-Yes, if you look at the fib.asm and the mul.asm code, they both hardcode the memory locations for temporary storage. They break if you try loading them elsewhere.
+Yes, if you look at the fib.asm and the mul.asm code, they both hardcode the memory locations for temporary storage.

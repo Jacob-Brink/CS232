@@ -2,6 +2,10 @@
 
 @author Victor Norman
 @date 12/26/17
+
+@student: Jacob Brink
+@date: 2/12/2021
+
 '''
 
 import time
@@ -12,7 +16,7 @@ DELAY_BETWEEN_INSTRUCTIONS = 0.2
 
 
 class CPU(threading.Thread):
-     # Homework 1: Add Batch Programming Step 2: Add batch_mode boolean parameter
+    # Homework 1: Add Batch Programming Step 2: Add batch_mode boolean parameter
     def __init__(self, ram, os, startAddr, debug, batch_mode=False, num=0):
         threading.Thread.__init__(self)
 
@@ -79,6 +83,8 @@ class CPU(threading.Thread):
             self._registers['reg1'], self._registers['reg2'])
         return res
 
+    # Homework 1: Add Batch Programming Step 3
+    # Added batch mode condition and simple loop that loops through program starting addresses in the given array
     def run(self):
         '''Overrides run() in thread.  Called by calling start().'''
         if self._batch_mode:
