@@ -2,6 +2,8 @@ How many bytes of RAM does the virtual machine have by default? ****
 
 The RAM isn't really bound by bytes, since it is a simple python array. It has 1024 words, which means that it can hold 1024 values, whether that be an instruction, any number, or a four character string.
 
+1024 words * 2 bytes / 1 word = 2048 bytes
+
 What are the registers that the virtual machine has?
 
 The virtual machine has three registers: reg0, reg1, and reg2. It also has a program counter called pc.
