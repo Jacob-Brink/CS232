@@ -31,6 +31,7 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
+  // ensure that given source file is not a symlink, not a directory, and is just a normal file
   //https://stackoverflow.com/questions/328944/how-do-i-check-if-a-file-is-a-regular-file
   struct stat sb;
 
@@ -39,11 +40,11 @@ int main(int argc, char *argv[]) {
     printf("Source file is regular\n");
   }
 
+  // open source file for reading and destination file for writing
   // https://fresh2refresh.com/c-programming/c-file-handling/fgetc-function-c/ 
   FILE *sourceFile = fopen(argv[1], "r");
   FILE *destinationFile = fopen(argv[2], "w");
 
-  
   if ( sourceFile == NULL ) {
     printf("Source file could not be opened...\n");
     return -1;
@@ -56,9 +57,9 @@ int main(int argc, char *argv[]) {
     fputc(c, destinationFile);
   }
 
+  // close files
+  fclose(sourceFile);
+  fclose(destinationFile);
   
-  
-  
-  printf("Hello World");
   return 0;
 }
