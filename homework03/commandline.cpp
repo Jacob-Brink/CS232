@@ -39,11 +39,11 @@ CommandLine::CommandLine(istream &in)
 #endif
 	// TODO: code here to process/check word. If it is a good word, then:
 	// the code should check if the word is an ampersand, et.c
-	if (word == '') {
+	if (word == "") {
 	  continue;
 	}
 
-	if (word == '&') {
+	if (word == "&") {
 	  ampersandSeen = true;
 	  break; // we break because this class is only meant to support one command at a time
 	}
