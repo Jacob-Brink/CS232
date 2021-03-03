@@ -37,10 +37,20 @@ CommandLine::CommandLine(istream &in)
 #if DEBUGME
         cout << "CmdLine: read word " << word << endl;
 #endif
+	// TODO: code here to process/check word. If it is a good word, then:
+	// the code should check if the word is an ampersand, et.c
+	if (word == '') {
+	  continue;
+	}
 
-        // TODO: code here to process/check word. If it is a good word, then:
-	// the code should check if the word is an ampersand, etc.
-        // tempArgv.push_back(word);
+	if (word == '&') {
+	  ampersandSeen = true;
+	  break; // we break because this class is only meant to support one command at a time
+	}
+
+	// only push back normal arguments
+	tempArgv.push_back(word);
+	
     }
 
 #if DEBUGME
