@@ -3,9 +3,11 @@
 #include "command.h"
 #include "exit_command.h"
 #include "cd_command.h"
+#include "sys_command.h"
 #include "pwd_command.h"
 #include "commandline.h"
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -20,24 +22,34 @@ void Shell::run() {
 
   while (running) {
 
+    // display updated prompt to user
     prompt.set();
     cout << prompt.get();
+
+    // since commandline assumes that given input is non empty string
+    string input;
+    getline(cin, input);
+    if (input.empty()) {
+      continue;
+    }
+
+    stringstream ss;
+    ss << input;
     
-    CommandLine commandLine = CommandLine(cin);
+    CommandLine commandLine = CommandLine(ss);
     string command(commandLine.getCommand());
     
     Command *commandObj = NULL;
-    vector<string> argVector(commandLine.getArgVector(), commandLine.getArgVector()+commandLine.getArgCount());
 
     
     if (command == "cd") {
-      commandObj = new CdCommand(argVector, commandLine.noAmpersand());
+      commandObj = new CdCommand(commandLine);
     } else if (command == "exit") {
-      commandObj = new ExitCommand(argVector, commandLine.noAmpersand());
+      commandObj = new ExitCommand(commandLine);
     } else if (command == "pwd") {
-      commandObj = new PwdCommand(argVector, commandLine.noAmpersand());
+      commandObj = new PwdCommand(commandLine);
     } else {
-      //commandObj = new SysCommand(argVector, commandLine.noAmpersand());
+      commandObj = new SysCommand(commandLine);
     }
 
     if (commandObj != NULL) {

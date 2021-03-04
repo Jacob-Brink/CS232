@@ -1,0 +1,10 @@
+#include "command.h"
+#include <vector>
+
+class SysCommand: public Command {
+ public:
+  SysCommand(vector<string> args, bool blocking);
+ protected:
+  bool isValidCount(int count);
+  void run(vector<string> args);
+};

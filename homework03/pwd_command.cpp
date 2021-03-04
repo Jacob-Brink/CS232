@@ -4,11 +4,11 @@
 
 using namespace std;
 
-PwdCommand::PwdCommand(vector<string> args, bool blocking): Command({0}, args, blocking) {
+PwdCommand::PwdCommand(CommandLine &commandLine): Command({0}, false, commandLine) {
 };
 
 // courtesy of prompt.cpp developed by professor Norman
-void PwdCommand::run(vector<string> args) {
+void PwdCommand::run(char** args) {
     char *tcwd = getcwd(NULL, 0);
     string cwd = string(tcwd);
     free(tcwd);

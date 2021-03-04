@@ -21,7 +21,7 @@ using namespace std;
  */
 CommandLine::CommandLine(istream &in)
 {
-    ampersandSeen = false;
+   ampersandSeen = false;
 
     // Read whole line in from the user.
     string line;
@@ -39,6 +39,7 @@ CommandLine::CommandLine(istream &in)
 #endif
 	// TODO: code here to process/check word. If it is a good word, then:
 	// the code should check if the word is an ampersand, et.c
+	
 	if (word == "") {
 	  continue;
 	}

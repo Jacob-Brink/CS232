@@ -1,33 +1,44 @@
 #include <iostream>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <vector>
 #include "command.h"
 #include "commandline.h"
 
 using namespace std;
 
-Command::Command(vector<int> argCountParam, vector<string> argsParam, bool blockingParam) {
-  argCount = argCountParam;
-  args = argsParam;
-  blocking = blockingParam;
+Command::Command(vector<int> argCountParam, bool builtinParam, CommandLine &commandLine) {
+  requiredArgCount = argCountParam;
+  builtin = builtinParam;
+  
+  argCount = commandLine.getArgCount();
+  blocking = commandLine.noAmpersand();
+  c_args = commandLine.getArgVector();
+  
+  vector<string> temp(commandLine.getArgVector(), commandLine.getArgVector()+commandLine.getArgCount());
+  args = temp;
 };
 
-bool Command::isValidCount() {
-  for (int i : argCount) {
-    if ((args.size()-1) == i) {
+bool Command::isValidCount(int count) {
+  int realArgCount = count - 1;
+  for (int i : requiredArgCount) {
+    if (realArgCount == i) {
       return true;
     }
   }
   return false;
-}
+};
 
-bool Command::isValidParam(vector<string> args) {
+bool Command::isValidParam(char** args) {
   return true; //should be overriden
-}
+};
 
 bool Command::isValid() {
-  if (!isValidCount()) {
+  if (!this->isValidCount(argCount)) {
     cout << "Given wrong number of parameters" << endl;
     return false;
-  } else if (!isValidParam(args)) {
+  } else if (!this->isValidParam(c_args)) {
     cout << "Parameters are of incorrect type" << endl;
     return false;
   }
@@ -35,15 +46,35 @@ bool Command::isValid() {
 }
 
 void Command::execute() {
-  if (!isValid()) {
+  if (!this->isValid()) {
     cout << "Please try again!" << endl;
     return;
   }
 
-  if (blocking) {
-    this->run(args);
+  if (builtin) {
+    // for builtin commands such as exit or cd, we want to run them on the main thread
+    this->run(c_args);
   } else {
-    // fork then run
+  
+    pid_t pid = fork();
+
+    if (pid == 0) {
+      this->run(c_args);
+      exit(0); //exit out of thread
+    } else if (pid > 0) {
+    
+      if (blocking) {
+	
+	cout << "we block all day" << endl;
+	int status;
+	cout << "WNOHANG" << WNOHANG << endl;
+	waitpid(pid, &status, 0);
+	cout << "we block all day" << endl;
+      }
+    
+    } else {
+      cout << "An error occurred executing the program" << endl;
+    }
   }
 };
 

@@ -2,7 +2,7 @@
 
 class ExitCommand: public Command {
  public:
-  ExitCommand(vector<string> args, bool blocking);
+  ExitCommand(CommandLine &commandLine);
  protected:
-  void run(vector<string> args);
+  void run(char** args);
 };

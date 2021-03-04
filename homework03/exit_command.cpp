@@ -1,10 +1,10 @@
 #include "exit_command.h"
 #include <stdio.h>
 
-ExitCommand::ExitCommand(vector<string> args, bool blocking): Command({0}, args, blocking) {
+ExitCommand::ExitCommand(CommandLine &commandLine): Command({0}, true, commandLine) {
 
 }
 
-void ExitCommand::run(vector<string> args) {
+void ExitCommand::run(char** args) {
   exit(0);
 }

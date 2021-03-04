@@ -2,7 +2,7 @@
 
 class PwdCommand: public Command {
  public:
-  PwdCommand(vector<string> args, bool blocking);
+  PwdCommand(CommandLine &commandLine);
  protected:
-  void run(vector<string> args);
+  void run(char** args);
 };

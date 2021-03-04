@@ -1,7 +1,8 @@
 #include <iostream>
 #include <sstream>
 #include "path.h"
-
+#include <dirent.h>
+#include <sys/types.h>
 
 // https://stackoverflow.com/questions/11295019/environment-path-directories-iteration
 
@@ -22,8 +23,33 @@ Path::Path() {
 
 int Path::find(const string& program) {
   
+  DIR *d;
+  struct dirent *inf;
+
+  int i = 0;
+  
+  for ( string dir : directories ) {
+    // get a pointer to the directory
+    d = opendir(dir.c_str());
+
+    // search for directory that holds program
+    if (d) {
+      while ((inf = readdir(d))) {
+	if (program == inf->d_name) {
+	  return i;
+	}
+      }
+      closedir(d);
+    }
+    
+    i++; 
+  }
+
+  // return -1 when program is not found
+  return -1;
+  
 };
 
 string Path::getDirectory(int i) const {
-  
+  return directories[i];
 };

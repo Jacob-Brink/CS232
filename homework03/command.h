@@ -7,19 +7,20 @@
 class Command {
  public:
   Command() {};
-  Command(vector<int> argCount, vector<string> args, bool blocking);
+  Command(vector<int> argCount, bool builtin, CommandLine &commandLine);
   void execute();
  protected:
-  virtual void run(vector<string> args) {
-  cout << "Command::run() not implemented" << endl;
-  };
-
-  virtual bool isValidParam(vector<string> args);
+  virtual void run(char** args) = 0;
+  virtual bool isValidParam(char** args);
+  virtual bool isValidCount(int count);
  private:
-  bool isValidCount();
   bool isValid();
-  vector<int> argCount;
+  bool builtin;
+  
+  vector<int> requiredArgCount;
   vector<string> args;
+  int argCount;
+  char** c_args;
   bool blocking;
 };
 

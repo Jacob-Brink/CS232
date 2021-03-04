@@ -2,8 +2,8 @@
 
 class CdCommand: public Command {
  public:
-  CdCommand(vector<string> args, bool blocking);
+  CdCommand(CommandLine &commandLine);
  protected:
-  void run(vector<string> args);
-  bool isValidParam(vector<string> args);
+  void run(char** args);
+  bool isValidParam(char** args);
 };
