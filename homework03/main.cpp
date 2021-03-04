@@ -8,9 +8,12 @@
 
 #include <iostream>
 #include "shell.h"
+#include "path.h"
 
 int main(int argc, const char *argv[])
 {
+  Path path = Path();
+  
     Shell myShell;
     myShell.run();
 }
