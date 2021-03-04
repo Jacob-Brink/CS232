@@ -1,3 +1,16 @@
+/* cd_command.cpp
+*
+* @instructor: Professor Norman
+*
+* @Date: 03/04/2021
+* @assignment: homework03
+* @student: Jacob Brink
+*
+* Description:
+* definition of CdCommand class; changes current working directory and handles errors
+*/
+
+
 #include "cd_command.h"
 #include <stdio.h>
 #include <iostream>

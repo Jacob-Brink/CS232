@@ -1,3 +1,16 @@
+/* sys_command.cpp
+*
+* @instructor: Professor Norman
+*
+* @Date: 03/04/2021
+* @assignment: homework03
+* @student: Jacob Brink
+*
+* Description:
+* definition of SysCommand class; handles searching for program and executing that program
+*/
+
+
 #include "path.h"
 #include "sys_command.h"
 #include <unistd.h>

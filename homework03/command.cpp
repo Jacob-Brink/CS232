@@ -1,3 +1,16 @@
+/* command.cpp
+*
+* @instructor: Professor Norman
+*
+* @Date: 03/04/2021
+* @assignment: homework03
+* @student: Jacob Brink
+*
+* Description:
+* definitions of Command class; provides both blocking and nonblocking execution of code along with parameter validation functions
+*/
+
+
 #include <iostream>
 #include <sys/wait.h>
 #include <sys/types.h>
@@ -54,6 +67,7 @@ void Command::execute() {
   if (builtin) {
     // for builtin commands such as exit or cd, we want to run them on the main thread
     this->run(c_args);
+    
   } else {
   
     pid_t pid = fork();
@@ -64,12 +78,8 @@ void Command::execute() {
     } else if (pid > 0) {
     
       if (blocking) {
-	
-	cout << "we block all day" << endl;
 	int status;
-	cout << "WNOHANG" << WNOHANG << endl;
 	waitpid(pid, &status, 0);
-	cout << "we block all day" << endl;
       }
     
     } else {

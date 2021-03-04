@@ -1,3 +1,16 @@
+/* shell.cpp
+*
+* @instructor: Professor Norman
+*
+* @Date: 03/04/2021
+* @assignment: homework03
+* @student: Jacob Brink
+*
+* Description:
+* definitions of Shell class, emulates a basic shell
+*/
+
+
 #include "shell.h"
 #include "prompt.h"
 #include "command.h"

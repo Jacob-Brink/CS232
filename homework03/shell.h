@@ -1,3 +1,16 @@
+/* shell.h
+*
+* @instructor: Professor Norman
+*
+* @Date: 03/04/2021
+* @assignment: homework03
+* @student: Jacob Brink
+*
+* Description:
+* declaration of Shell class; run function should be called to initiate a shell like program
+*/
+
+
 #include "prompt.h"
 #include "commandline.h"
 

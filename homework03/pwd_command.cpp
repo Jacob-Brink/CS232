@@ -1,3 +1,16 @@
+/* pwd_command.cpp
+*
+* @instructor: Professor Norman
+*
+* @Date: 03/04/2021
+* @assignment: homework03
+* @student: Jacob Brink
+*
+* Description:
+* Definitions of PwdCommand class, essentially prints out working directory
+*/
+
+
 #include <iostream>
 #include <unistd.h>
 #include "pwd_command.h"

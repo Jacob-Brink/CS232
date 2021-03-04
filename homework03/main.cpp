@@ -1,3 +1,16 @@
+/* main.cpp
+*
+* @instructor: Professor Norman
+*
+* @Date: 03/04/2021
+* @assignment: homework03
+* @student: Jacob Brink
+*
+* Description:
+* Runs shell command
+*/
+
+
 //
 //  main.cpp
 //  CS232 Command Shell

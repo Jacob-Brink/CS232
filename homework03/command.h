@@ -1,3 +1,16 @@
+/* command.h
+*
+* @instructor: Professor Norman
+*
+* @Date: 03/04/2021
+* @assignment: homework03
+* @student: Jacob Brink
+*
+* Description:
+* declaration of Command class, which contains common parameter checking, blocking and nonblocking execution of commands, and etc
+*/
+
+
 #include "commandline.h"
 #include <vector>
 
