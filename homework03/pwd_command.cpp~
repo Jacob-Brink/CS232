@@ -1,0 +1,14 @@
+#include "pwd_command.h"
+
+PwdCommand::PwdCommand(vector<string> args, bool blocking): Command({0}, args, blocking) {
+}
+
+// courtesy of prompt.cpp developed by professor Norman
+void PwdCommand::run(vector<string> args) {
+    char *tcwd = getcwd(NULL, 0);
+    cwd = string(tcwd);
+    free(tcwd);
+
+    cout << cwd;
+
+}
