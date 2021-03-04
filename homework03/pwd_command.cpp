@@ -13,6 +13,6 @@ void PwdCommand::run(vector<string> args) {
     string cwd = string(tcwd);
     free(tcwd);
 
-    cout << cwd;
+    cout << cwd << endl;
 
 };

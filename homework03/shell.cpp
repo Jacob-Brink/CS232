@@ -2,6 +2,7 @@
 #include "prompt.h"
 #include "command.h"
 #include "exit_command.h"
+#include "cd_command.h"
 #include "pwd_command.h"
 #include "commandline.h"
 #include <iostream>
@@ -19,6 +20,7 @@ void Shell::run() {
 
   while (running) {
 
+    prompt.set();
     cout << prompt.get();
     
     CommandLine commandLine = CommandLine(cin);
@@ -29,7 +31,7 @@ void Shell::run() {
 
     
     if (command == "cd") {
-      //commandObj = new CdCommand(argVector, commandLine.noAmpersand());
+      commandObj = new CdCommand(argVector, commandLine.noAmpersand());
     } else if (command == "exit") {
       commandObj = new ExitCommand(argVector, commandLine.noAmpersand());
     } else if (command == "pwd") {
