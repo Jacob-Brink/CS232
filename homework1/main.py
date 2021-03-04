@@ -94,10 +94,8 @@ class Monitor:
                     print("S <start> <end>: show memory from start to end")
                     print("X <addr>: execute program starting at addr")
                     print("R <addr>: run programs with starting locations specified in an array starting at <addr>")
-                    print(
-                        "L <addr> <tapename>: load a program from tape to bytes starting at addr")
-                    print(
-                        "W <start> <end> <tapename>: write bytes from start to end to tape")
+                    print("L <addr> <tapename>: load a program from tape to bytes starting at addr")
+                    print("W <start> <end> <tapename>: write bytes from start to end to tape")
                     print("! : Toggle debugging on or off -- off at startup.")
                     continue
 
@@ -172,8 +170,8 @@ class Monitor:
                             # TODO: store entry point address.
                             continue
                         self._ram[addr] = line
-                    addr += 1
-            print("Tape loaded from %d to %d" % (startaddr, addr))
+                        addr += 1
+                        print("Tape loaded from %d to %d" % (startaddr, addr))
         except FileNotFoundError:
             print("File not found")
 
@@ -184,7 +182,7 @@ class Monitor:
             while addr <= endaddr:
                 f.write(str(self._ram[addr]) + "\n")
                 addr += 1
-        print("Tape written from %d to %d" % (startaddr, addr - 1))
+                print("Tape written from %d to %d" % (startaddr, addr - 1))
 
     def _run_program(self, addr):
         # creates a new thread, passing in ram, the os, and the
@@ -241,7 +239,7 @@ class Monitor:
                     print("Bad value")
                     return
                 self._ram[curr_addr] = data
-            curr_addr += 1
+                curr_addr += 1
             if not self._ram.is_legal_addr(curr_addr):
                 print("End of RAM")
                 return
@@ -264,7 +262,7 @@ class Monitor:
                 print("[%04d] %d" % (curr_addr, val))
             else:
                 print("[%04d] %s" % (curr_addr, val))
-            curr_addr += 1
+                curr_addr += 1
 
 
 # Main
