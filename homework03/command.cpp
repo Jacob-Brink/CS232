@@ -16,11 +16,14 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <vector>
+#include <sched.h>
 #include "command.h"
 #include "commandline.h"
 
 using namespace std;
 
+/* Sets up the parameters and setting for the command
+ */
 Command::Command(vector<int> argCountParam, bool builtinParam, CommandLine &commandLine) {
   requiredArgCount = argCountParam;
   builtin = builtinParam;
@@ -33,6 +36,7 @@ Command::Command(vector<int> argCountParam, bool builtinParam, CommandLine &comm
   args = temp;
 };
 
+// function that can be overriden that checks if given parameters are correct
 bool Command::isValidCount(int count) {
   int realArgCount = count - 1;
   for (int i : requiredArgCount) {
@@ -43,21 +47,32 @@ bool Command::isValidCount(int count) {
   return false;
 };
 
+// function that checks if parameters are valid
 bool Command::isValidParam(char** args) {
-  return true; //should be overriden
+  return true; // default to true if not overriden
+};
+
+// error messages that can be overriden
+string Command::paramCountError() {
+  return "Given wrong number of parameters.";
+};
+
+string Command::validParamError() {
+  return "Given parameters are not valid";
 };
 
 bool Command::isValid() {
   if (!this->isValidCount(argCount)) {
-    cout << "Given wrong number of parameters" << endl;
+    cout << this->paramCountError() << endl;
     return false;
   } else if (!this->isValidParam(c_args)) {
-    cout << "Parameters are of incorrect type" << endl;
+    cout << this->validParamError() << endl;
     return false;
   }
   return true;
 }
 
+// handles executing programs, including programs to be run in the background or not
 void Command::execute() {
   if (!this->isValid()) {
     cout << "Please try again!" << endl;
@@ -69,21 +84,25 @@ void Command::execute() {
     this->run(c_args);
     
   } else {
-  
+    // for non builtin commands
+
+    // create a new child process
     pid_t pid = fork();
 
-    if (pid == 0) {
+    if (pid == 0) { // if child process, execute the code
+
       this->run(c_args);
       exit(0); //exit out of thread
-    } else if (pid > 0) {
+      
+    } else if (pid > 0) { // if parent process and blocking, wait, else do nothing
     
       if (blocking) {
 	int status;
 	waitpid(pid, &status, 0);
-      }
+      } 
     
     } else {
-      cout << "An error occurred executing the program" << endl;
+      perror("Error in creating child process");
     }
   }
 };

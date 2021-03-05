@@ -24,16 +24,16 @@
 
 using namespace std;
 
+// Shell constructor sets up prompt instance
 Shell::Shell() {
   prompt = Prompt();
   prompt.set();
 };
 
+// creates a basic shell like program
 void Shell::run() {
 
-  bool running = true;
-
-  while (running) {
+  while (true) {
 
     // display updated prompt to user
     prompt.set();
@@ -46,14 +46,15 @@ void Shell::run() {
       continue;
     }
 
+    // if not empty, then give CommandLine the user input
     stringstream ss;
     ss << input;
-    
     CommandLine commandLine = CommandLine(ss);
-    string command(commandLine.getCommand());
-    
+
+    // use polymorphism to create commands
     Command *commandObj = NULL;
 
+    string command(commandLine.getCommand());
     
     if (command == "cd") {
       commandObj = new CdCommand(commandLine);
@@ -65,10 +66,8 @@ void Shell::run() {
       commandObj = new SysCommand(commandLine);
     }
 
-    if (commandObj != NULL) {
-      commandObj->execute();
-      delete commandObj;
-    }   
+    commandObj->execute(); // run command
+    delete commandObj; // free memory
     
   };
 }

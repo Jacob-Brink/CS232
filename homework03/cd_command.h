@@ -17,6 +17,8 @@ class CdCommand: public Command {
  public:
   CdCommand(CommandLine &commandLine);
  protected:
+  string validParamError();
+  string paramCountError();
   void run(char** args);
   bool isValidParam(char** args);
 };
