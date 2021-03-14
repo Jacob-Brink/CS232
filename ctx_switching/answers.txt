@@ -1,0 +1,7 @@
+1. The PCB class is defined in calos.py file.
+2. The PCB includes information on what state the process is in, what values the registers are, where the program is located in memory, and how long the process can run before being interrupted.
+3. The PCB is created on line 180 in the _load_program function in the Monitor class in the main.py file.
+4. The process states that have been defined are as follows: NEW, READY, RUNNING, WAITING, and DONE.
+5. "current_proc" refers to the current process running in CalOS. It is defined on line 7, and will be changed when there is a context switch or a process has ended.
+6. That code under with self._mutex run when no threads are running by getting a lock. All other threads similarly have code under "with self._mutex" which will not run if another thread is running with the lock. Since only one thread at a time has the lock, there can be no race conditions on threads that are accessing the same resources. The with keyword is a simple way of requesting a resource and handling the release of the resource. This is commonly used for opening a file and automatically closing that file. In this case, it is being used to request a lock and wait for the lock, then to release that lock once the code is done executing.
+7. When the countdown is 0, the TimeController interrupts the CPU with the dev_id. It does this by setting the mutex lock on the interrupt lock, so no other threads can call an interrupt while this interrupt is called and handled.
