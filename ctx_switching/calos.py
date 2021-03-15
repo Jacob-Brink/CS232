@@ -1,3 +1,7 @@
+# Student: Jacob Brink
+# Homework: 04 (ctx_switching)
+# Date: 03/13/2021
+# Class: CS232
 
 DEFAULT_QUANTUM = 3   # very short -- for pedagogical reasons.
 
@@ -13,7 +17,7 @@ class CalOS:
         self._timer_controller = None
         self._cpu = None
         self._debug = debug
-
+        
     def set_cpu(self, cpu):
         self._cpu = cpu
 
@@ -47,19 +51,48 @@ class CalOS:
         '''Called when the timer expires. If there is no process in the
         ready queue, reset the timer and continue.  Else, context_switch.
         '''
-        pass
+
+        # if ready queue is not empty, context switch, or just reset the timer
+        if len(self._ready_q) > 0:
+            self.context_switch()
+        else:
+            self.reset_timer()
 
     def context_switch(self):
         '''Do a context switch between the current_proc and the process
         on the front of the ready_q.
         '''
-        pass
+        # pull new process from ready queue and remove it from the ready queue
+        new_process = self._ready_q.pop()
 
+        # save registers of currently-running process
+        CalOS.current_proc.set_registers(self._cpu.get_registers())
+
+        # load registers from new process
+        self._cpu.set_registers(new_process.get_registers())
+
+        # set current process on the ready queue
+        self.add_to_ready_q(CalOS.current_proc)
+
+        # set new process to running state
+        new_process.set_state(PCB.RUNNING)
+
+        # set current process to new_process
+        CalOS.current_proc = new_process
+        
+        
     def run(self):
         '''Startup the timer controller and execute processes in the ready
         queue on the given cpu -- i.e., run the operating system!
         '''
-        pass
+
+        # while the queue is not empty, run processes in the queue
+        while len(self._ready_q) > 0:
+            CalOS.current_proc = self._ready_q.pop()
+            self.reset_timer()
+            self._cpu.set_registers(CalOS.current_proc.get_registers())
+            self._cpu.run_process()
+            CalOS.current_proc.set_state(PCB.DONE)
 
     def reset_timer(self):
         '''Reset the timer's countdown to the value in the current_proc's
