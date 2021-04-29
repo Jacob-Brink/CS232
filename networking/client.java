@@ -41,17 +41,9 @@ public class ClientTest {
 		break;
 
 	    if (rotationStepComplete) {
-		send.writeBytes(input+"\n");
-		send.flush();
-
-		String results = recv.readLine();
-		System.out.println("Server says: " + results);
+		sendReceive(send, recv, input);
 	    } else {
-		send.writeBytes(input+"\n");
-		send.flush();
-
-		String results = recv.readLine();
-		System.out.println("Server says: " + results);
+		String results = sendReceive(send, recv, input);
 		
 		if (checkRotation(results, input)) {
 		    rotationStepComplete = true;
@@ -63,6 +55,14 @@ public class ClientTest {
 	};
     }
 
+    public static String sendReceive(DataOutputStream send, BufferedReader recv, String data) throws Exception {
+	send.writeBytes(data+"\n");
+	send.flush();
+	String results = recv.readLine();
+	System.out.println("\n\tServer says: " + results + "\n");
+	return results;
+    }
+    
     public static String host;
     public static int port;
     
