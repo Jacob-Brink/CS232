@@ -4,6 +4,7 @@ import java.io.*;
 
 public class Server {
 
+    // CeasarWorker handles one connected socket to the server
     static class CeasarWorker extends Thread {
 
 	private Socket socket;
@@ -12,13 +13,22 @@ public class Server {
 	    this.socket = socket;
 	}
 
+	/* sendMessage
+         * @params: send stream, data string
+         * @description: sends data to the client socket
+         */
 	private void sendMessage(DataOutputStream send, String data) throws IOException {
 	    send.writeBytes(data+"\n");
 	    send.flush();
 	}
 
+	/* shiftString
+         * @params: input, shift (rotation)
+         * @returns: string that has only the letters shifted by given shift
+         */
 	private String shiftString(String input, int shift) {
 	    String shiftedString = "";
+
 	    for (int i = 0; i < input.length(); i++) {
 		char character = input.charAt(i);
 		if (Character.isLetter(character)) {
@@ -40,7 +50,10 @@ public class Server {
 	    }
 	    return shiftedString;
 	}
-	
+
+	/* run
+         * @description: this is run when this thread is created and follows the ceasar cipher protocol (get rotation from client, then translate further client messages by that rotation)
+         */
 	public void run() {
 
 	    boolean gettingRotation = true;
@@ -72,8 +85,6 @@ public class Server {
 
 		}
 
-		recv.close();
-		send.close();
 		this.socket.close();
 		
 	    } catch (Exception e) {
@@ -84,7 +95,10 @@ public class Server {
     }
 
     
-    // inspired by https://www.infoworld.com/article/2853780/socket-programming-for-scalable-systems.html
+    // used https://www.infoworld.com/article/2853780/socket-programming-for-scalable-systems.html
+    /* main
+     * @description: starts server on specified port and creates a thread for each client connection
+     */
     public static void main(String []args) {
 	int port = Integer.parseInt(args[0]);
 	try (ServerSocket serverSocket = new ServerSocket( port )) {
@@ -96,9 +110,9 @@ public class Server {
 		try {
 		    Socket socket = serverSocket.accept();
 		    CeasarWorker worker = new CeasarWorker(socket);
-		    worker.start();
+		    worker.start(); // have another thread handle this socket, so the server can continue to handle new users
 		} catch (Exception e) {
-
+		    System.out.println(e);
 		}
 	    }
 	    
